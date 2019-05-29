@@ -45,6 +45,11 @@ view: ca {
       type: number
       sql: ${TABLE}.views ;;
     }
+    measure: sum_views {
+      type: sum
+      sql: ${views};;
+      drill_fields: [detail*]
+    }
 
     dimension: likes {
       type: number

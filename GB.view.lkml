@@ -45,6 +45,12 @@ view: gb {
       sql: ${TABLE}.views ;;
     }
 
+    measure: sum_views {
+      type: sum
+      sql: ${views};;
+      drill_fields: [detail*]
+    }
+
     dimension: likes {
       type: number
       sql: ${TABLE}.likes ;;
