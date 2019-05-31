@@ -183,6 +183,13 @@
       sql: ${TABLE}.Country ;;
     }
 
+
+    dimension: country_name {
+      type: string
+      sql: ${TABLE}.string_field_1 ;;
+    }
+
+
     set: detail {
       fields: [
         video_id,
