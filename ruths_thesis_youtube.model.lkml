@@ -10,30 +10,12 @@ datagroup: ruths_thesis_youtube_default_datagroup {
 
 persist_with: ruths_thesis_youtube_default_datagroup
 
-explore: ca {
-join: category_id{
-  sql_on: ${ca.category_id} = ${category_id.cat_id};;
-  relationship: many_to_one
-  type: left_outer
+
+
+explore: all_countries {
+  join: category_id{
+    sql_on: ${all_countries.category_id} = ${category_id.cat_id};;
+    relationship: many_to_one
+    type: left_outer
   }
 }
-
-explore: de {}
-
-explore: fr {}
-
-explore: gb {}
-
-explore: in {}
-
-explore: jp {}
-
-explore: kr {}
-
-explore: mx {}
-
-explore: ru {}
-
-explore: us {}
-
-explore: category_id {}
