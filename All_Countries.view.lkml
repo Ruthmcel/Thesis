@@ -64,7 +64,9 @@
     persist_for:"1000 hours"
     }
 
-   dimension: tags {}
+   dimension: tags {
+    drill_fields: [views, thumbnail_link, description]
+  }
 
     measure: count {
       type: count
@@ -72,6 +74,7 @@
     }
 
     dimension: video_id {
+    primary_key: yes
     type: string
     sql: ${TABLE}.video_id ;;
     }
@@ -86,11 +89,7 @@
       sql: ${TABLE}.title ;;
       html: <a href="https://www.youtube.com/watch?v={{ all_countries.video_id._value }}">{{ value }}</a>  ;;
 
-#       link: {
-#         label: "Video Link"
-#         url: "https://www.youtube.com/watch?v={{ all_countries.video_id._value }}"
-#         icon_url: "https://www.freefavicon.com/freefavicons/icons/youtube-152-289233.png"
-#       }
+
     }
 
     dimension: channel_title {
@@ -99,9 +98,9 @@
     }
 
     dimension: category_id {
-      primary_key: yes
       type: number
-      sql: ${TABLE}.category_id ;;
+      sql:${TABLE}.category_id
+      ;;
     }
 
     dimension_group: publish_time {
@@ -133,7 +132,7 @@
     measure: sum_views {
       type: sum
       sql: ${views};;
-      drill_fields: [title,category_id,tags]
+      drill_fields: [views, thumbnail_link,category_id,tags]
 #       drill_fields: [detail*]
     }
 
@@ -181,12 +180,6 @@
     dimension: country {
       type: string
       sql: ${TABLE}.Country ;;
-    }
-
-
-    dimension: country_name {
-      type: string
-      sql: ${TABLE}.string_field_1 ;;
     }
 
 

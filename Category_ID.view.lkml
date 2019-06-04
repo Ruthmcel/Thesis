@@ -14,7 +14,7 @@ view: category_id {
 
   dimension: cat_title {
     type: string
-    sql: ${TABLE}.items__snippet__title ;;
+    sql: COALESCE(${TABLE}.items__snippet__title, 'Nonprofits & Activism') ;;
   }
 
   set: detail {

@@ -1,23 +1,29 @@
 view: country_codes {
-  sql_table_name:Ruths.country_code;;
+  sql_table_name:Ruths.Lat_long;;
 
 
-  measure: country_count {
-    type: count
-    drill_fields: [detail*]
-  }
+measure: count {
+  type: count
+  drill_fields: [detail*]
+}
 
-  dimension: country_name {
-    type: string
-    sql: ${TABLE}.string_field_0 ;;
-  }
+dimension: country_code {
+  type: string
+  sql: ${TABLE}.string_field_0 ;;
+}
 
-  dimension:  country_code{
-    type: string
-    sql: ${TABLE}.string_field_1 ;;
-  }
+dimension: location{
+  type: location
+  sql_latitude: ${TABLE}.double_field_1 ;;
+  sql_longitude: ${TABLE}.double_field_2 ;;
+}
 
-  set: detail {
-    fields: [country_code, country_name]
-  }
+dimension: country_name {
+  type: string
+  sql: ${TABLE}.string_field_3 ;;
+}
+
+set: detail {
+  fields: [country_code, location, country_name]
+   }
 }
