@@ -64,8 +64,10 @@
     persist_for:"1000 hours"
     }
 
-   dimension: tags {
-    drill_fields: [views, thumbnail_link, description]
+  dimension: tags {
+  type: string
+  sql:REPLACE( REPLACE (REPLACE (${TABLE}.tags, 'Video', 'video'), 'Music', 'music'),'New', 'new') ;;
+  drill_fields: [views, thumbnail_link, description]
   }
 
     measure: count {
@@ -115,6 +117,11 @@
 
     measure: max_views {
       type: max
+      sql: ${views} ;;
+      drill_fields: [views, thumbnail_link, likes, dislikes]
+    }
+    measure: avg_views {
+      type: average
       sql: ${views} ;;
       drill_fields: [views, thumbnail_link, likes, dislikes]
     }
