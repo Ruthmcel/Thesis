@@ -196,7 +196,9 @@
     dimension: image_banner {
       type: string
       sql: ${TABLE}.thumbnail_link ;;
-      html: <img src="https://blog.prisync.com/airplanebody/uploads/2016/05/prisync_ecommerce_youtube_marketing.jpg"> ;;
+      html:
+      <img src="https://blog.prisync.com/airplanebody/uploads/2016/05/prisync_ecommerce_youtube_marketing.jpg">
+      ;;
     }
     dimension: comments_disabled {
       type: string
