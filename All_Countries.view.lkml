@@ -123,6 +123,7 @@
     measure: avg_views {
       type: average
       sql: ${views} ;;
+      value_format_name: decimal_2
       drill_fields: [views, thumbnail_link, likes, dislikes]
     }
 
@@ -148,14 +149,38 @@
       sql: ${TABLE}.likes ;;
     }
 
+    measure: sum_likes {
+      type: sum
+      sql: ${likes} ;;
+    }
+    measure: avg_likes {
+      type: average
+      sql: ${likes} ;;
+    }
+
     dimension: dislikes {
       type: number
       sql: ${TABLE}.dislikes ;;
     }
 
+    measure: sum_dislikes {
+      type: sum
+      sql: ${dislikes} ;;
+    }
+
+    measure: avg_dislikes {
+      type: average
+      sql: ${dislikes} ;;
+    }
+
     dimension: comment_count {
       type: number
       sql: ${TABLE}.comment_count ;;
+    }
+
+    measure: avg_commentcount {
+      type: average
+      sql: ${comment_count} ;;
     }
 
     dimension: thumbnail_link {
@@ -164,6 +189,11 @@
       html: <a href="https://www.youtube.com/watch?v={{ all_countries.video_id._value }}"><img src="{{ value }}" title = "{{all_countries.title._value}}"></a> ;;
     }
 
+    dimension: image_banner {
+      type: string
+      sql: ${TABLE}.thumbnail_link ;;
+      html: <img src="https://blog.prisync.com/airplanebody/uploads/2016/05/prisync_ecommerce_youtube_marketing.jpg"> ;;
+    }
     dimension: comments_disabled {
       type: string
       sql: ${TABLE}.comments_disabled ;;
@@ -187,6 +217,20 @@
     dimension: country {
       type: string
       sql: ${TABLE}.Country ;;
+    }
+
+    filter: country_select {
+      suggest_dimension: country
+    }
+
+    dimension: country_comparitor {
+      type: string
+      sql:
+          CASE
+            WHEN {% condition country_select %} ${country} {% endcondition %}
+              THEN ${country}
+            ELSE 'Rest of Population'
+          END ;;
     }
 
 
