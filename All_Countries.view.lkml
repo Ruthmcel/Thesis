@@ -152,10 +152,12 @@
     measure: sum_likes {
       type: sum
       sql: ${likes} ;;
+
     }
     measure: avg_likes {
       type: average
       sql: ${likes} ;;
+      value_format_name: decimal_2
     }
 
     dimension: dislikes {
@@ -166,11 +168,13 @@
     measure: sum_dislikes {
       type: sum
       sql: ${dislikes} ;;
+
     }
 
     measure: avg_dislikes {
       type: average
       sql: ${dislikes} ;;
+      value_format_name: decimal_2
     }
 
     dimension: comment_count {
