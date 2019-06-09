@@ -72,7 +72,7 @@
 
     measure: count {
       type: count
-      drill_fields: [detail*]
+      drill_fields: [country, count]
     }
 
     dimension: video_id {
@@ -197,7 +197,14 @@
       type: string
       sql: ${TABLE}.thumbnail_link ;;
       html:
-      <img src="https://blog.prisync.com/airplanebody/uploads/2016/05/prisync_ecommerce_youtube_marketing.jpg">
+      <img src="https://i.imgur.com/fFmW3Zx.jpg">
+      ;;
+    }
+    dimension: introduction {
+      type: string
+      sql: ${TABLE}.thumbnail_link ;;
+      html:
+      <img src="https://i.imgur.com/fFmW3Zx.jpg">
       ;;
     }
     dimension: comments_disabled {
@@ -224,6 +231,7 @@
       type: string
       sql: ${TABLE}.Country ;;
     }
+
 
     filter: country_select {
       suggest_dimension: country
