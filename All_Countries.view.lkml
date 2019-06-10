@@ -205,14 +205,14 @@
       type: string
       sql: ${TABLE}.thumbnail_link ;;
       html:
-      <img src="https://i.imgur.com/fFmW3Zx.jpg">
+      <img src="https://i.imgur.com/fFmW3Zx.jpg" width= "1500">
       ;;
     }
     dimension: findings_banner {
       type: string
       sql: ${TABLE}.thumbnail_link ;;
       html:
-      <img src="https://i.imgur.com/Itt97Vz.png">
+      <img src="https://i.imgur.com/Itt97Vz.png"width= "1300">
       ;;
     }
     dimension: findings_text {
