@@ -17,6 +17,20 @@ view: category_id {
     sql: COALESCE(${TABLE}.items__snippet__title, 'Nonprofits & Activism') ;;
   }
 
+  filter: category_select {
+    suggest_dimension: cat_title
+  }
+
+  dimension: category_comparitor {
+    type: string
+    sql:
+          CASE
+            WHEN {% condition category_select %} ${cat_title} {% endcondition %}
+              THEN ${cat_title}
+            ELSE 'Rest of Population'
+          END ;;
+  }
+
   set: detail {
     fields: [cat_id, cat_title]
   }

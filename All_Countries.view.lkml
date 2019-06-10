@@ -177,6 +177,13 @@
       value_format_name: decimal_2
     }
 
+    measure: likes_dislike_diff {
+      type: average
+      sql:  ${likes}-${dislikes} ;;
+      value_format_name: decimal_2
+    }
+
+
     dimension: comment_count {
       type: number
       sql: ${TABLE}.comment_count ;;
@@ -185,6 +192,7 @@
     measure: avg_commentcount {
       type: average
       sql: ${comment_count} ;;
+      value_format_name: decimal_2
     }
 
     dimension: thumbnail_link {
@@ -200,6 +208,20 @@
       <img src="https://i.imgur.com/fFmW3Zx.jpg">
       ;;
     }
+    dimension: findings_banner {
+      type: string
+      sql: ${TABLE}.thumbnail_link ;;
+      html:
+      <img src="https://i.imgur.com/Itt97Vz.png">
+      ;;
+    }
+    dimension: findings_text {
+      type: string
+      sql: ${TABLE}.thumbnail_link ;;
+      html:
+      <img src="https://i.imgur.com/N1S5GHI.png" width = "700">
+      ;;
+    }
     dimension: introduction {
       type: string
       sql: ${TABLE}.thumbnail_link ;;
@@ -208,7 +230,7 @@
       ;;
     }
     dimension: comments_disabled {
-      type: string
+      type: yesno
       sql: ${TABLE}.comments_disabled ;;
     }
 
