@@ -222,6 +222,15 @@
       <img src="https://i.imgur.com/N1S5GHI.png" width = "700">
       ;;
     }
+
+    dimension: Country_banner {
+      type: string
+      sql: ${TABLE}.thumbnail_link ;;
+      html:
+      <img src="https://i.imgur.com/G2L1RfY.png" width = "1200">
+      ;;
+    }
+
     dimension: introduction {
       type: string
       sql: ${TABLE}.thumbnail_link ;;
@@ -232,6 +241,11 @@
     dimension: comments_disabled {
       type: yesno
       sql: ${TABLE}.comments_disabled ;;
+    }
+
+    measure: comments_disabled_number{
+      type: number
+      sql: if(${TABLE}.comments_disabled = False, 1, 0) ;;
     }
 
     dimension: ratings_disabled {
