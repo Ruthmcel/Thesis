@@ -64,6 +64,14 @@
     persist_for:"1000 hours"
     }
 
+    parameter:test{
+      type: unquoted
+      allowed_value: {
+        label: "cat id test"
+        value: "category_id.cat_id"
+      }
+    }
+
   dimension: tags {
   type: string
   sql:REPLACE( REPLACE (REPLACE (${TABLE}.tags, 'Video', 'video'), 'Music', 'music'),'New', 'new') ;;
@@ -89,9 +97,13 @@
     dimension: title {
       type: string
       sql: ${TABLE}.title ;;
-      html: <a href="https://www.youtube.com/watch?v={{ all_countries.video_id._value }}">{{ value }}</a>  ;;
-
-
+      html:
+      {% if all_countries.category_id._value  == 10 %}
+      <a href="https://www.youtube.com/">{{value}}</a
+      {% else %}
+      {{rendered_value}}
+      {% endif %}  ;;
+      # html: <a href="https://www.youtube.com/watch?v={{ all_countries.video_id._value }}">{{ value }}</a>  ;;
     }
 
     dimension: channel_title {
@@ -100,6 +112,7 @@
     }
 
     dimension: category_id {
+      label: "category id"
       type: number
       sql:${TABLE}.category_id
       ;;
@@ -111,9 +124,12 @@
     }
 
     dimension: views {
+      label: "views test"
       type: number
       sql: ${TABLE}.views ;;
     }
+
+
 
     measure: max_views {
       type: max
@@ -127,15 +143,27 @@
       drill_fields: [views, thumbnail_link, likes, dislikes]
     }
 
+    dimension: chicks_test_unique_name {
+      type: string
+      sql: "chick's" ;;
+    }
+
     dimension: link {
       type: string
       sql: ${video_id} ;;
       link: {
         label: "Video Link"
-        url: "https://www.youtube.com/watch?v={{ value }}"
+        url: "https://www.youtube.com/watch?v={{ all_countries.video_id }}"
         icon_url: "https://www.freefavicon.com/freefavicons/icons/youtube-152-289233.png"
       }
     }
+
+    dimension: very_test_unique_name {
+      type: string
+      sql: "blah blah" ;;
+    }
+
+
 
     measure: sum_views {
       type: sum
@@ -163,6 +191,22 @@
     dimension: dislikes {
       type: number
       sql: ${TABLE}.dislikes ;;
+    }
+
+    parameter: values {
+      type: string
+      allowed_value: { value: "1" }
+      allowed_value: { value: "2" }
+      allowed_value: { value: "3" }
+      allowed_value: { value: "10" }
+    }
+
+    dimension: category_id_filtered {
+      type: string
+      sql: CASE
+      WHEN  ${category_id} = {% parameter values %}  THEN ${category_id}
+      ELSE NULL
+  END;;
     }
 
     measure: sum_dislikes {

@@ -7,10 +7,7 @@ measure: count {
   drill_fields: [detail*]
 }
 
-measure: max_count {
-  type: max
-  sql: ${count} ;;
-}
+
 
 dimension: country_code {
   type: string
