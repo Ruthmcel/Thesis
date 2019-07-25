@@ -1,7 +1,7 @@
 connection: "lookerdata_standard_sql"
 
 # include all the views
-include: "*.view"
+include: "*.view*"
 
 
 datagroup: ruths_thesis_youtube_default_datagroup {
@@ -16,9 +16,20 @@ explore: all_countries {
     sql_on: ${all_countries.category_id} = ${category_id.cat_id};;
     relationship: many_to_one
     type: left_outer
-
   }
-#  3nsnnsn
+  join: country_codes {
+    sql_on: ${all_countries.country} = ${country_codes.country_code};;
+    relationship: many_to_one
+    type: left_outer
+  }
+}
+
+explore: category_id {
+  join: all_countries{
+    sql_on: ${all_countries.category_id} = ${category_id.cat_id};;
+    relationship: one_to_many
+    type: left_outer
+  }
   join: country_codes {
     sql_on: ${all_countries.country} = ${country_codes.country_code};;
     relationship: many_to_one
