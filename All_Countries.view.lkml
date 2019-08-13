@@ -89,10 +89,15 @@
     sql: ${TABLE}.video_id ;;
     }
 
+    dimension: date_truncate{
+      type: string
+      sql: CONCAT('Performance Readout for ',DATE_FORMAT(${TABLE}.trending_date , '%Y-%m-%d'));;
+    }
+
     dimension: trending_date {
       type: string
       sql: CONCAT("DATE TRUNCATE TEST test test test ",${TABLE}.trending_date );;
-      html: <p style="font-size:100%"{{ value }}</p>;;
+      html: <p style="font-size:100%">{{value }}</p>;;
     }
 
     dimension: title {
