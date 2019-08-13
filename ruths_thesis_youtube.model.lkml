@@ -12,6 +12,7 @@ datagroup: ruths_thesis_youtube_default_datagroup {
 persist_with: ruths_thesis_youtube_default_datagroup
 
 explore: all_countries {
+
   join: category_id{
     sql_on: ${all_countries.category_id} = ${category_id.cat_id};;
     relationship: many_to_one

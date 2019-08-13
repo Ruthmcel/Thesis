@@ -1,4 +1,5 @@
 view: category_id {
+  view_label: "test"
   sql_table_name: Ruths.Category_id;;
 
 

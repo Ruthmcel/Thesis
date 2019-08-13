@@ -91,7 +91,7 @@
 
     dimension: trending_date {
       type: string
-      sql: ${TABLE}.trending_date ;;
+      sql: CONCAT("DATE TRUNCATE TEST",${TABLE}.trending_date );;
     }
 
     dimension: title {
@@ -116,6 +116,14 @@
       type: number
       sql:${TABLE}.category_id
       ;;
+    }
+    dimension: null_join_test {
+      type: number
+      sql:CASE
+      WHEN ${TABLE}.category_id = 10 THEN ${TABLE}.category_id
+      ELSE NULL
+      END
+        ;;
     }
 
     dimension_group: publish_time {
@@ -211,7 +219,7 @@
 
     measure: sum_dislikes {
       type: sum
-      sql: ${dislikes} ;;
+      sql: ${dislikes};;
 
     }
 
@@ -287,10 +295,7 @@
       sql: ${TABLE}.comments_disabled ;;
     }
 
-    measure: comments_disabled_number{
-      type: number
-      sql: if(${TABLE}.comments_disabled = False, 1, 0) ;;
-    }
+
 
     dimension: ratings_disabled {
       type: string
