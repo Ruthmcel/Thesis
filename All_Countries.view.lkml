@@ -92,6 +92,7 @@
     dimension: trending_date {
       type: string
       sql: CONCAT("DATE TRUNCATE TEST test test test ",${TABLE}.trending_date );;
+      html: <p style="font-size:100%"{{ value }}</p>;;
     }
 
     dimension: title {
