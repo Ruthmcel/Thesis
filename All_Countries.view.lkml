@@ -96,7 +96,7 @@
 
     dimension: trending_date {
       type: string
-      sql: CONCAT("DATE TRUNCATE TEST test test test ",${TABLE}.trending_date );;
+      sql: CONCAT("DATE TRUNCATE TEST ",${TABLE}.trending_date );;
 
     }
 
