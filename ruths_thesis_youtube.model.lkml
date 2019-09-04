@@ -11,7 +11,11 @@ datagroup: ruths_thesis_youtube_default_datagroup {
 
 persist_with: ruths_thesis_youtube_default_datagroup
 
+
+explore: ranking {}
 explore: all_countries {
+#   extension: required
+  hidden:  no
 
   join: category_id{
     sql_on: ${all_countries.category_id} = ${category_id.cat_id};;

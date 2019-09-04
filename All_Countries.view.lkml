@@ -89,14 +89,10 @@
     sql: ${TABLE}.video_id ;;
     }
 
-    dimension: date_truncate{
-      type: string
-      sql: CONCAT('Performance Readout for ',DATE_FORMAT(${TABLE}.trending_date , '%Y-%m-%d'));;
-    }
 
     dimension: trending_date {
-      type: string
-      sql: CONCAT("DATE TRUNCATE TEST ",${TABLE}.trending_date );;
+      type: date
+      sql: ${TABLE}.trending_date ;;
 
     }
 
@@ -117,8 +113,46 @@
       sql: ${TABLE}.channel_title ;;
     }
 
+
+    parameter: col_choice {
+      type: unquoted
+      allowed_value: {
+        label: "cat_id"
+        value: "category_id"
+      }
+      allowed_value: {
+        label: "country"
+        value: "country"
+      }
+      allowed_value: {
+        label: "Both"
+        value: "both"
+      }
+    }
+    dimension: dynamic_dim {
+      label_from_parameter:col_choice
+      type: string
+      sql:
+      {% if col_choice._parameter_value == "category_id" %}
+      ${category_id}
+      {% elsif col_choice._parameter_value == "country" %}
+      ${country}
+      {% elsif  col_choice._parameter_value == "both" %}
+      concat(${category_id.cat_title}, " ", ${country})
+      {% else  %}
+        NULL
+      {% endif %}
+      ;;
+    }
+
+    measure: average {
+      type: average
+    }
+
+
     dimension: category_id {
-      label: "category id"
+      full_suggestions: yes
+      # label: "category id"
       type: number
       sql:${TABLE}.category_id
       ;;
@@ -130,6 +164,11 @@
       ELSE NULL
       END
         ;;
+    }
+    measure: filter_lookeup {
+      type:  number
+      sql: round(((${all_countries.sum_likes}- min(offset_list(${all_countries.sum_likes}, 0, 5)))/${all_countries.sum_likes})*100,2)
+;;
     }
 
     dimension_group: publish_time {
@@ -143,7 +182,13 @@
       sql: ${TABLE}.views ;;
     }
 
-
+    measure: link_test {
+      type: count
+      link: {
+        label: "Visualizza la Tabella"
+        url: "/dashboards/441?Filter1={{ _filters['all_countries.country'] }}&Filter2={{ _filters['all_countries.category_id'] | url_encode}}"
+      }
+    }
 
     measure: max_views {
       type: max
@@ -162,6 +207,13 @@
       sql: "chick's" ;;
     }
 
+    dimension: hebrew {
+      type: string
+      sql: "ריבר" ;;
+    }
+
+
+
     dimension: link {
       type: string
       sql: ${video_id} ;;
@@ -171,6 +223,8 @@
         icon_url: "https://www.freefavicon.com/freefavicons/icons/youtube-152-289233.png"
       }
     }
+
+
 
     dimension: very_test_unique_name {
       type: string
