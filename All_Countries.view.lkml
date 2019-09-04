@@ -210,6 +210,7 @@
     dimension: hebrew {
       type: string
       sql: "ריבר" ;;
+      html: {{ value }} ;;
     }
 
 
