@@ -2,6 +2,7 @@ connection: "lookerdata_standard_sql"
 
 # include all the views
 include: "*.view*"
+fiscal_month_offset: 0
 
 
 datagroup: ruths_thesis_youtube_default_datagroup {
@@ -13,9 +14,10 @@ persist_with: ruths_thesis_youtube_default_datagroup
 
 
 explore: ranking {}
+
 explore: all_countries {
-#   extension: required
-  hidden:  no
+# sql_always_where: ${all_countries.dynamic_date} >= ${all_countries.date_granularity_filter_value} ;;
+
 
   join: category_id{
     sql_on: ${all_countries.category_id} = ${category_id.cat_id};;

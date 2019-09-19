@@ -64,6 +64,31 @@
     persist_for:"1000 hours"
     }
 
+
+
+    parameter: 1_name_from {
+      type: string
+    }
+
+    parameter: 1_name_to {
+      type: string
+    }
+
+    parameter: 2_name_from {
+      type: string
+    }
+
+    parameter: 2_name_to {
+      type: string
+    }
+
+    dimension:replace_text{
+      type: string
+      sql: replace
+                (replace(${country}, {% parameter 1_name_from %}, {% parameter 1_name_to %})
+          , {% parameter 2_name_from %}, {% parameter 2_name_to %});;
+    }
+
     parameter:test{
       type: unquoted
       allowed_value: {
@@ -81,6 +106,18 @@
     measure: count {
       type: count
       drill_fields: [country, count]
+    }
+    measure: count_likes {
+      type: count_distinct
+      sql: ${likes} ;;
+    }
+
+    dimension: content_validator_test{
+      type: string
+      sql:  CASE
+      WHEN ${category_id} = 10 THEN ${country}
+      ELSE "TESTINGCONTENTVALIDATOR"
+      END;;
     }
 
     dimension: video_id {
@@ -111,6 +148,82 @@
     dimension: channel_title {
       type: string
       sql: ${TABLE}.channel_title ;;
+    }
+
+    parameter: date_granularity {
+      type: string
+      allowed_value: { label: "By Weekly" value: "Weekly" }
+      allowed_value: { label: "By Monthly" value: "Monthly" }
+    }
+
+    dimension_group: since_first_purchase {
+      type: duration
+      intervals: [hour, day, week, month, quarter, year]
+      sql_start: ${publish_time_date} ;;
+      sql_end: coalesce(${publish_time_date},CURRENT_TIMESTAMP );;
+
+    }
+
+    dimension: variable_duration {
+      sql:
+      {% if date_granularity._parameter_value == "'Weekly'" %}
+      ${weeks_since_first_purchase}
+      {% elsif date_granularity._parameter_value == "'Monthly'" %}
+      ${months_since_first_purchase}
+      {% endif %};;
+    }
+
+
+    dimension: date_granularity_filter_value {
+      type: date
+      sql:
+      CASE
+         WHEN {% parameter date_granularity %} = 'Day' THEN
+          TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 5 MONTH))
+         WHEN {% parameter date_granularity %} = 'Month' THEN
+          TIMESTAMP(DATE_SUB(CURRENT_DATE(), INTERVAL 5 WEEK))
+         ELSE
+           NULL
+       END ;;
+    }
+
+
+
+    dimension: dynamic_date {
+    sql:
+       CASE
+         WHEN {% parameter date_granularity %} = 'Day' THEN
+          ${publish_time_date}
+         WHEN {% parameter date_granularity %} = 'Month' THEN
+            ${publish_time_date}
+         ELSE
+           NULL
+       END ;;
+    }
+
+    dimension: today {
+      type: date_time
+      sql: current_timestamp() ;;
+    }
+
+    dimension_group: publish_time {
+      type: time
+      timeframes: [
+        raw,
+        time,
+        day_of_month,
+        day_of_week,
+        date,
+        week,
+        month,
+        month_name,
+        year,
+        fiscal_month_num,
+        fiscal_year,
+        day_of_week_index,
+        quarter
+      ]
+      sql: ${TABLE}.publish_time ;;
     }
 
 
@@ -171,10 +284,7 @@
 ;;
     }
 
-    dimension_group: publish_time {
-      type: time
-      sql: ${TABLE}.publish_time ;;
-    }
+
 
     dimension: views {
       label: "views test"
@@ -248,8 +358,11 @@
 
     measure: sum_likes {
       type: sum
-      sql: ${likes} ;;
-
+      sql: case
+      when ${likes} >2000 then ${likes}
+      else null
+      end;;
+drill_fields: [publish_time_date, title, likes]
     }
     measure: avg_likes {
       type: average
@@ -341,6 +454,14 @@
       sql: ${TABLE}.thumbnail_link ;;
       html:
       <img src="https://i.imgur.com/G2L1RfY.png" width = "1200">
+      ;;
+    }
+
+    dimension: tester {
+      type: string
+      sql: ${TABLE}.thumbnail_link ;;
+      html:
+      <img src="http://216.236.185.254/KM/banners/Weekly_Content.jpg" width = "1000">
       ;;
     }
 
